@@ -3,16 +3,23 @@
   "version": "1.0.0",
   "description": "Aggregates Players from multiple Podlove instances",
   "scripts": {
-    "dev": "vite watch --config ./.build/vite.config.js",
+    "dev": "vite build --watch --config ./.build/vite.config.js",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.4.0",
     "@vitejs/plugin-react": "^1.0.7",
+    "autoprefixer": "^10.4.2",
+    "cssnano": "^5.0.16",
+    "postcss-import": "^14.0.2",
+    "postcss-prefix-selector": "^1.14.0",
+    "tailwindcss": "^3.0.18",
     "vite": "^2.7.2"
   },
   "author": "Alexander Heimbuch <kontakt@alexander.heimbu.ch>",

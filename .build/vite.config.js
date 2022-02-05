@@ -2,14 +2,15 @@ import { defineConfig } from 'vite'
 import * as path from 'path'
 import react from '@vitejs/plugin-react'
 
-const root = path.resolve(__dirname)
+const root = path.resolve(__dirname, '..')
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  publicDir: false,
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'admin/js/settings.jsx'),
+      entry: path.resolve(root, 'admin', 'settings', 'main.jsx'),
       name: 'PodloveAggregatorSettings',
       fileName: (format) => `settings.js`
     },
@@ -19,7 +20,7 @@ export default defineConfig({
       output: {
         entryFileNames: `settings.js`,
         chunkFileNames: `chunk-[name].js`,
-        assetFileNames: `style.[ext]`
+        assetFileNames: `settings.[ext]`
       },
       external: ['wp']
     }

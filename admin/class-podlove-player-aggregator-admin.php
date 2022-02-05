@@ -48,10 +48,9 @@ class Podlove_Player_Aggregator_Admin {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->api = new Podlove_Player_Aggregator_Admin_API($plugin_name, $version);
 	}
 
 	/**
@@ -59,7 +58,10 @@ class Podlove_Player_Aggregator_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles($hook) {
+		if ($hook != 'settings_page_' . $this->plugin_name . '-settings') {
+			return null;
+		}
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,7 +75,7 @@ class Podlove_Player_Aggregator_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/podlove-player-aggregator-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'dist/settings.css', array('wp-components'), $this->version, 'all' );
 
 	}
 
@@ -99,8 +101,12 @@ class Podlove_Player_Aggregator_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/podlove-player-aggregator-settings.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'dist/settings.js', array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element' ), $this->version, true );
+		wp_localize_script( $this->plugin_name, 'PODLOVE_PLAYER_AGGREGATOR', array(
+			'api' => $this->api->routes(),
+			'nonce' => wp_create_nonce('wp_rest')
+		  )
+		);
 	}
 
 	public function page_settings() {
@@ -118,4 +124,12 @@ class Podlove_Player_Aggregator_Admin {
 		);
 	  }
 
+	/**
+	 * Register api routes
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_routes() {
+		$this->api->registerRoutes();
+	}
 }

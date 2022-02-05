@@ -13,4 +13,13 @@
  */
 ?>
 
-<div id="podlove-player-aggregator-settings"></div>
+<div id="podlove-player-aggregator-settings" class="podlove-player-aggregator"></div>
+<style>
+#wpcontent {
+  padding-left: 0;
+}
+
+.auto-fold #wpcontent {
+  padding-left: 0;
+}
+</style>

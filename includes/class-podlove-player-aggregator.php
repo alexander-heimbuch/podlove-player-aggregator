@@ -116,6 +116,16 @@ class Podlove_Player_Aggregator {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-podlove-player-aggregator-admin.php';
 
+    	/**
+		 * The class responsible for loading and saving plugin options
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-podlove-player-aggregator-options.php';
+
+		/**
+		 * The class responsible for defining the Admin REST API
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-podlove-player-aggregator-admin-api.php';
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
@@ -157,6 +167,7 @@ class Podlove_Player_Aggregator {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_menu_page' );
+		$this->loader->add_action( 'rest_api_init', $plugin_admin, 'add_routes' );
 	}
 
 	/**
