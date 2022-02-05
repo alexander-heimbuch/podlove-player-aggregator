@@ -1,0 +1,20 @@
+{
+  "name": "podlove-player-aggregator",
+  "version": "1.0.0",
+  "description": "Aggregates Players from multiple Podlove instances",
+  "scripts": {
+    "dev": "vite watch --config ./.build/vite.config.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.7",
+    "vite": "^2.7.2"
+  },
+  "author": "Alexander Heimbuch <kontakt@alexander.heimbu.ch>",
+  "license": "UNLICENSED"
+}
