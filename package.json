@@ -3,24 +3,27 @@
   "version": "1.0.0",
   "description": "Aggregates Players from multiple Podlove instances",
   "scripts": {
-    "dev": "vite build --watch --config ./.build/vite.config.js",
+    "dev:block": "vite build --watch --config ./.build/vite.block.config.js",
+    "dev:settings": "vite build --watch --config ./.build/vite.settings.config.js",
+    "dev": "run-p dev:block dev:settings",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@heroicons/react": "1.0.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.4.0",
-    "@vitejs/plugin-react": "^1.0.7",
-    "autoprefixer": "^10.4.2",
-    "cssnano": "^5.0.16",
-    "postcss-import": "^14.0.2",
-    "postcss-prefix-selector": "^1.14.0",
-    "tailwindcss": "^3.0.18",
-    "vite": "^2.7.2"
+    "@tailwindcss/forms": "0.4.0",
+    "@vitejs/plugin-react": "1.0.7",
+    "autoprefixer": "10.4.2",
+    "cssnano": "5.0.16",
+    "postcss-import": "14.0.2",
+    "postcss-prefix-selector": "1.14.0",
+    "tailwindcss": "3.0.18",
+    "vite": "2.7.2",
+    "npm-run-all": "4.1.5"
   },
   "author": "Alexander Heimbuch <kontakt@alexander.heimbu.ch>",
   "license": "UNLICENSED"

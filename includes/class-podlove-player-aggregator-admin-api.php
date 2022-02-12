@@ -34,6 +34,13 @@ class Podlove_Player_Aggregator_Admin_API
      */
     private $options;
 
+
+    /**
+     * API Client
+     */
+    private $api;
+
+
     /**
      * Initialize the class and set its properties.
      *
@@ -46,6 +53,7 @@ class Podlove_Player_Aggregator_Admin_API
         $this->plugin_name = $plugin_name;
         $this->version = $version;
         $this->options = new Podlove_Player_Aggregator_Options($plugin_name);
+        $this->api = new Podlove_Player_Aggregator_Rest_Client();
     }
 
     /**
@@ -56,7 +64,9 @@ class Podlove_Player_Aggregator_Admin_API
     public function routes()
     {
         return array(
-            'sites' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'sites'))
+            'sites' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'sites')),
+            'verify' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'verify')),
+            'search' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'search'))
         );
     }
 
@@ -70,7 +80,49 @@ class Podlove_Player_Aggregator_Admin_API
         register_rest_route($this->plugin_name . '/' . $this->version, 'sites',
             array(
                 'methods' => 'GET',
-                'callback' => array($this, 'sites'),
+                'callback' => array($this, 'getSites'),
+                'permission_callback' => array($this, 'api_permissions'),
+            )
+        );
+
+        register_rest_route($this->plugin_name . '/' . $this->version, 'sites',
+            array(
+                'methods' => 'POST',
+                'callback' => array($this, 'updateSites'),
+                'args' => array(
+                    'sites' => array(
+                        'required' => true
+
+                    ),
+                ),
+                'permission_callback' => array($this, 'api_permissions'),
+            )
+        );
+
+        register_rest_route($this->plugin_name . '/' . $this->version, 'verify',
+            array(
+                'methods' => 'POST',
+                'callback' => array($this, 'verifySite'),
+                'args' => array(
+                    'site' => array(
+                        'required' => true
+
+                    ),
+                ),
+                'permission_callback' => array($this, 'api_permissions'),
+            )
+        );
+
+
+        register_rest_route($this->plugin_name . '/' . $this->version, 'search',
+            array(
+                'methods' => 'POST',
+                'callback' => array($this, 'searchSite'),
+                'args' => array(
+                    'query' => array(
+                        'required' => true
+                    ),
+                ),
                 'permission_callback' => array($this, 'api_permissions'),
             )
         );
@@ -91,10 +143,63 @@ class Podlove_Player_Aggregator_Admin_API
      *
      * @since    1.0.0
      */
-    public function sites()
+    public function getSites()
     {
         $data = $this->options->read();
 
         return rest_ensure_response($data['sites']);
+    }
+
+    /**
+     * Load initial data
+     *
+     * @since    1.0.0
+     */
+    public function updateSites(WP_REST_Request $request)
+    {
+        $options = $this->options->read();
+
+        $options['sites'] = $request->get_param('sites');
+
+        $this->options->update($options);
+        $options = $this->options->read();
+
+        return rest_ensure_response($options['sites']);
+    }
+
+    /**
+     * Verify Sites
+     *
+     * @since    1.0.0
+     */
+    public function verifySite(WP_REST_Request $request)
+    {
+        $valid = false;
+        
+        try {
+            $valid = array_key_exists('_version', $this->api->get($request->get_param('site') . '/wp-json/podlove/v2/episodes')) !== null;
+        } finally {
+
+        }
+
+        return rest_ensure_response(array('valid' => $valid));
+    }
+
+    /**
+     * Verify Sites
+     *
+     * @since    1.0.0
+     */
+    public function searchSite(WP_REST_Request $request)
+    {
+        $valid = false;
+        
+        try {
+            $valid = array_key_exists('_version', $this->api->get($request->get_param('site') . '/wp-json/podlove/v2/episodes')) !== null;
+        } finally {
+
+        }
+
+        return rest_ensure_response(array('valid' => $valid));
     }
 }
