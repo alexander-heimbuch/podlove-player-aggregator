@@ -6,7 +6,7 @@ import { DocumentAddIcon, PlusIcon } from "@heroicons/react/solid";
 import "./style.css";
 
 import { Site } from "./site";
-import * as api from "../lib/api";
+import * as api from "../../lib/api";
 
 class App extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   saveSites() {
-    api.post("sites", [], {
+    api.post("sites", {
       sites: this.state.sites.map((site) => ({
         name: site.name,
         url: site.url,
@@ -110,7 +110,7 @@ class App extends Component {
 
   checkAvailablility(index) {
     const site = this.state.sites.find((site) => site.index === index);
-    api.post("verify", [], { site: site.url }).then(({ valid }) => {
+    api.post("verify", { site: site.url }).then(({ valid }) => {
       this.setState({
         sites: this.state.sites.map((site) => {
           if (site.index !== index) {

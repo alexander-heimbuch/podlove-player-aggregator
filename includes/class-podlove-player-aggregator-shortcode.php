@@ -49,9 +49,9 @@ class Podlove_Player_Aggregator_Shortcode
             $atts = [];
         }
 
-        $attributes = array_change_key_case($atts, CASE_LOWER);
+        $props = array_change_key_case($atts, CASE_LOWER);
 
-        return $this->html($attributes['episode'], $attributes['post'], $attributes['title'], $attributes['site'], $attributes['audio']);
+        return $this->html($props);
     }
 
 
@@ -59,24 +59,20 @@ class Podlove_Player_Aggregator_Shortcode
      * Template string generator
      *
      * @since    1.0.0
-     * @param    string         $episode        episode id
-     * @param    string         $post           post id
-     * @param    string         $title          title
-     * @param    string         $site          site
-     * @param    string         $audio          audio url
+     * @param    array         $props        array of properties
      */
-    private function html($episode, $post, $title, $site, $audio)
+    private function html($props)
     {
         $embed = '
-            <audio data-title="" data-episode-id="$episode" data-post-id="$post" data-site="$site" data-title="$title" src="$audio"></audio>
+            <audio data-title="$title" data-episode-id="$episode" data-post-id="$post" data-site="$site" data-title="$title" src="$audio" controls></audio>
         ';
 
         return strtr($embed, array(
-            '$episode' => $episode,
-            '$post' => $post,
-            '$audio' => $audio,
-            '$site' => $site,
-            '$title' => $title
+            '$episode' =>  array_key_exists('episode', $props) ? $props['episode'] : '',
+            '$post' => array_key_exists('post', $props) ? $props['post'] : '',
+            '$audio' => array_key_exists('audio', $props) ? $props['audio'] : '',
+            '$site' =>  array_key_exists('site', $props) ? $props['site'] : '',
+            '$title' =>  array_key_exists('title', $props) ? $props['title'] : ''
         ));
     }
 }

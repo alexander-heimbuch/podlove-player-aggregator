@@ -146,7 +146,7 @@ class Podlove_Player_Aggregator {
 		/**
 		 * The class responsible for defining the block
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-podlove-player-aggregator-block.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'block/class-podlove-player-aggregator-block.php';
 
 
 		$this->loader = new Podlove_Player_Aggregator_Loader();

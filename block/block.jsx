@@ -1,39 +1,54 @@
-import logo from './components/logo'
+import logo from "./components/logo";
+import Inspector from "./components/inspector";
+import Placeholder from "./components/placeholder";
 
-const { __ } = wp.i18n
-const { registerBlockType } = wp.blocks
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
-registerBlockType('podlove-player-aggregator/shortcode', {
-  title: __('Podlove Web Player', 'podlove-web-player'),
-  description: __('HTML 5 Podcast Player', 'podlove-web-player'),
-  icon: logo(),
-  category: 'embed',
+window.PodlovePlayerAggregator = {
+  episodes: [],
+  loading: true
+}
+
+registerBlockType("podlove-player-aggregator/shortcode", {
+  title: __("Podlove Aggregator Player", "podlove-player-aggregator"),
+  description: __(
+    "Search and embed Podlove Episodes",
+    "podlove-player-aggregator"
+  ),
+  icon: logo(40),
+  category: "embed",
 
   attributes: {
     site: {
-      type: 'string',
+      type: "string",
     },
 
     title: {
-      type: 'string',
+      type: "string",
     },
 
     episode: {
-      type: 'string',
+      type: "string",
     },
 
     post: {
-      type: 'string',
+      type: "string",
+    },
+
+    audio: {
+      type: "string"
     }
   },
 
-  edit: props => (
+  edit: (props) => (
     <div className={props.className}>
-        Hello World!
+      <Inspector {...props} />
+      <Placeholder {...props} />
     </div>
   ),
 
   save() {
-    return null
+    return null;
   },
-})
+});

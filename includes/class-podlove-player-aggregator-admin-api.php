@@ -66,7 +66,8 @@ class Podlove_Player_Aggregator_Admin_API
         return array(
             'sites' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'sites')),
             'verify' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'verify')),
-            'search' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'search'))
+            'episodes' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'episodes')),
+            'details' => esc_url_raw(rest_url($this->plugin_name . '/' . $this->version . '/' . 'details'))
         );
     }
 
@@ -113,15 +114,25 @@ class Podlove_Player_Aggregator_Admin_API
             )
         );
 
-
-        register_rest_route($this->plugin_name . '/' . $this->version, 'search',
+        register_rest_route($this->plugin_name . '/' . $this->version, 'episodes',
             array(
-                'methods' => 'POST',
-                'callback' => array($this, 'searchSite'),
+                'methods' => 'GET',
+                'callback' => array($this, 'getEpisodes'),
+                'permission_callback' => array($this, 'api_permissions'),
+            )
+        );
+
+        register_rest_route($this->plugin_name . '/' . $this->version, 'details',
+            array(
+                'methods' => 'GET',
+                'callback' => array($this, 'getDetails'),
                 'args' => array(
-                    'query' => array(
+                    'site' => array(
                         'required' => true
                     ),
+                    'id' => array(
+                        'required' => true
+                    )
                 ),
                 'permission_callback' => array($this, 'api_permissions'),
             )
@@ -186,20 +197,54 @@ class Podlove_Player_Aggregator_Admin_API
     }
 
     /**
-     * Verify Sites
+     * get list of episodes
      *
      * @since    1.0.0
      */
-    public function searchSite(WP_REST_Request $request)
+    public function getEpisodes(WP_REST_Request $request)
     {
-        $valid = false;
-        
-        try {
-            $valid = array_key_exists('_version', $this->api->get($request->get_param('site') . '/wp-json/podlove/v2/episodes')) !== null;
-        } finally {
+        $options = $this->options->read();
+        $results = array();
+        $sites = $options['sites'] ?? [];
 
+        foreach ($sites as $site) {
+            try {
+                $result = $this->api->get($site['url'] . '/wp-json/podlove/v2/episodes');
+                $episodes = $result->results ?? array();
+
+                foreach ($episodes as $episode) {
+                    array_push($results, array(
+                        'episode' => $episode->id,
+                        'title' => $episode->title,
+                        'site' => $site['name']
+                    ));
+                }
+            } finally {
+                
+            }
+    
         }
 
-        return rest_ensure_response(array('valid' => $valid));
+        return rest_ensure_response(array('results' => $results));
+    }
+
+    /**
+     * get list of episodes
+     *
+     * @since    1.0.0
+     */
+    public function getDetails(WP_REST_Request $request)
+    {
+        $options = $this->options->read();
+        $key = array_search($request->get_param('site'), array_column($options['sites'], 'site'));
+        $site = $options['sites'][$key];
+
+        try {
+            $details = $this->api->get($site['url'] . '/wp-json/podlove/v2/episodes/' . $request->get_param('id'));
+        } finally {
+            
+        }
+
+        return rest_ensure_response(array('result' => $details));
     }
 }
