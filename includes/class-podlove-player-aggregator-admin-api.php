@@ -236,8 +236,19 @@ class Podlove_Player_Aggregator_Admin_API
     public function getDetails(WP_REST_Request $request)
     {
         $options = $this->options->read();
-        $key = array_search($request->get_param('site'), array_column($options['sites'], 'site'));
-        $site = $options['sites'][$key];
+        $site = null;
+
+        foreach ($options['sites'] as $value) {
+            if ($value['name'] == $request->get_param('site')) {
+                $site = $value;
+                break;
+            }
+        }
+
+        if ($site === null) {
+            return new WP_Error( 'no_site', __( "Couldn't find a matching site", "podlove-player-aggregator" ) );
+        }
+        
 
         try {
             $details = $this->api->get($site['url'] . '/wp-json/podlove/v2/episodes/' . $request->get_param('id'));
