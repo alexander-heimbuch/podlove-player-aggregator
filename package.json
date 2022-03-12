@@ -40,7 +40,9 @@
   "release-it": {
     "github": {
       "release": true,
-      "assets": ["dist/podlove-player-aggregator.zip"]
+      "assets": [
+        "dist/podlove-player-aggregator.zip"
+      ]
     },
     "npm": {
       "publish": false
