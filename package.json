@@ -1,6 +1,6 @@
 {
   "name": "podlove-player-aggregator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Aggregates Players from multiple Podlove instances",
   "scripts": {
     "dev:block": "vite build --watch --config ./.build/vite.block.config.js",
@@ -11,7 +11,8 @@
     "build": "run-p build:block build:settings",
     "preview": "vite preview",
     "export": "node ./.build/export.js",
-    "version": "node ./.build/version.js"
+    "version": "node ./.build/version.js",
+    "release": "release-it"
   },
   "dependencies": {
     "@heroicons/react": "1.0.5",
@@ -31,8 +32,21 @@
     "npm-run-all": "4.1.5",
     "zip-a-folder": "1.1.3",
     "fs-extra": "10.0.1",
-    "replace-in-file": "6.3.2"
+    "replace-in-file": "6.3.2",
+    "release-it": "14.12.5"
   },
   "author": "Alexander Heimbuch <kontakt@alexander.heimbu.ch>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "release-it": {
+    "github": {
+      "release": true,
+      "assets": ["dist/podlove-player-aggregator.zip"]
+    },
+    "npm": {
+      "publish": false
+    },
+    "hooks": {
+      "after:bump": "npm run build && npm run version && npm run export"
+    }
+  }
 }

@@ -12,8 +12,8 @@ async function main() {
   await replace({
     files: ENTRY,
     from: /(define\( \'PODLOVE_PLAYER_AGGREGATOR_VERSION\'\, \'\d\.\d\.\d\' \))/,
-    to: `define( 'PODLOVE_PLAYER_AGGREGATOR_VERSION', '${version}' );`,
+    to: `define( 'PODLOVE_PLAYER_AGGREGATOR_VERSION', '${version}' )`,
   });
 }
 
-await main();
+main();

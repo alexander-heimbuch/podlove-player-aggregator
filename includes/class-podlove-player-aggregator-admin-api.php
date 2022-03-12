@@ -146,7 +146,7 @@ class Podlove_Player_Aggregator_Admin_API
      */
     public function api_permissions()
     {
-      return current_user_can('manage_options');
+      return current_user_can('edit_posts');
     }
 
     /**
