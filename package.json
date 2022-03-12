@@ -1,6 +1,6 @@
 {
   "name": "podlove-player-aggregator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Aggregates Players from multiple Podlove instances",
   "scripts": {
     "dev:block": "vite build --watch --config ./.build/vite.block.config.js",
