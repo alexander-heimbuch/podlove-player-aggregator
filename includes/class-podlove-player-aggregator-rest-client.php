@@ -1,19 +1,4 @@
-
 <?php
-
-/**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @link       https://alexander.heimbu.ch
- * @since      1.0.0
- *
- * @package    Podlove_Player_Aggregator
- * @subpackage Podlove_Player_Aggregator/includes
- */
-
 /**
  * Define the internationalization functionality.
  *
@@ -27,11 +12,13 @@
  */
 class Podlove_Player_Aggregator_Rest_Client {
 
+    public function __construct() {}
+
     // This method will perform an action/method thru HTTP/API calls
     // Parameter description:
     // Method= POST, PUT, GET etc
     // Data= array("param" => "value") ==> index.php?param=value
-    private function request($method, $url, $data = false)
+    private function request($method, $url, $data = null)
     {
         $curl = curl_init();
 

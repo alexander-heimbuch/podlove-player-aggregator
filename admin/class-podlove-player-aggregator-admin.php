@@ -63,18 +63,6 @@ class Podlove_Player_Aggregator_Admin {
 			return null;
 		}
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Podlove_Player_Aggregator_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Podlove_Player_Aggregator_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'dist/settings.css', array('wp-components'), $this->version, 'all' );
 
 	}
@@ -88,18 +76,6 @@ class Podlove_Player_Aggregator_Admin {
 		if ($hook != 'settings_page_' . $this->plugin_name . '-settings') {
 			return null;
 		}
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Podlove_Player_Aggregator_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Podlove_Player_Aggregator_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'dist/settings.js', array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element' ), $this->version, true );
 		wp_localize_script( $this->plugin_name, 'PODLOVE_PLAYER_AGGREGATOR', array(

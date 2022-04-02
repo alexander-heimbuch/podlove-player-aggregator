@@ -74,9 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-podlove-player-aggregator.
  * @since    1.0.0
  */
 function run_podlove_player_aggregator() {
-
 	$plugin = new Podlove_Player_Aggregator();
 	$plugin->run();
-
 }
 run_podlove_player_aggregator();
