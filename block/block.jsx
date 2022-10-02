@@ -38,6 +38,23 @@ registerBlockType("podlove-player-aggregator/shortcode", {
 
     audio: {
       type: "string"
+    },
+
+    embed: {
+      enum: ["audio", "player"],
+      default: "audio"
+    },
+
+    theme: {
+      type: "string"
+    },
+
+    config: {
+      type: "string"
+    },
+
+    template: {
+      type: "string"
     }
   },
 

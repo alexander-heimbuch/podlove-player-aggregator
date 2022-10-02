@@ -249,12 +249,23 @@ class Podlove_Player_Aggregator_Admin_API
             return new WP_Error( 'no_site', __( "Couldn't find a matching site", "podlove-player-aggregator" ) );
         }
         
-
         try {
             $details = $this->api->get($site['url'] . '/wp-json/podlove/v2/episodes/' . $request->get_param('id'));
         } finally {
-            
         }
+
+        $details->site_url = $site['url'];
+
+        $playerOptions = null;
+
+        try {
+            $playerOptions = $this->api->get($site['url'] . '/wp-json/podlove-web-player/options');
+            $details->playerOptions = array(
+                'themes' => array_keys((array)$playerOptions->themes),
+                'configs' => array_keys((array)$playerOptions->configs),
+                'templates' => array_keys((array)$playerOptions->templates)
+            );
+        } finally {}
 
         return rest_ensure_response(array('result' => $details));
     }

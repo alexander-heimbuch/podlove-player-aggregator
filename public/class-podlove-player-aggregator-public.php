@@ -51,7 +51,7 @@ class Podlove_Player_Aggregator_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->api = new Podlove_Player_Aggregator_Public_API($plugin_name, $version);
 	}
 
 	/**
@@ -69,4 +69,9 @@ class Podlove_Player_Aggregator_Public {
 	 */
 	public function enqueue_scripts() {
 	}
+
+	public function add_routes()
+    {
+        $this->api->registerRoutes();
+    }
 }
