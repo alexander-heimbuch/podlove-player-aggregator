@@ -2,6 +2,8 @@ const { __ } = wp.i18n;
 
 const { Component, Fragment } = wp.element;
 
+import { kebabCase } from 'lodash';
+
 import "./style.css";
 
 import {
@@ -88,7 +90,7 @@ export class Site extends Component {
                 value={this.state.name}
                 onChange={(e) =>
                   this.setState({
-                    name: e.target.value,
+                    name: kebabCase(e.target.value),
                   })
                 }
               />

@@ -46,7 +46,7 @@ class App extends Component {
   updateSite(index) {
     return async (update) => {
       await this.setState({
-        sites: this.state.sites.map((site) => {
+        sites: (this.state.sites || []).map((site) => {
           if (site.index === index) {
             return {
               ...site,
