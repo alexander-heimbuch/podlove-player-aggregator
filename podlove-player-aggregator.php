@@ -16,7 +16,7 @@
  * Plugin Name:       Podlove Player Aggregator
  * Plugin URI:        https://alexander.heimbu.ch
  * Description:       Aggregates Players from multiple Podlove instances
- * Version:           2.0.0-0-0
+ * Version:           2.0.0-1-1-0-0
  * Author:            Alexander Heimbuch
  * Author URI:        https://alexander.heimbu.ch
  * License:           Unlicensed
