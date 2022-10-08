@@ -3,6 +3,7 @@
   "version": "2.0.0-1",
   "description": "Aggregates Players from multiple Podlove instances",
   "scripts": {
+    "start": "npm run dev",
     "dev:block": "vite build --watch --config ./.build/vite.block.config.js",
     "build:block": "vite build --config ./.build/vite.block.config.js",
     "dev:settings": "vite build --watch --config ./.build/vite.settings.config.js",

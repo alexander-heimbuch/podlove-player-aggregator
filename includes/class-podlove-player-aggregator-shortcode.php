@@ -115,7 +115,11 @@ class Podlove_Player_Aggregator_Shortcode
             return '';
         }
 
-        return $playerOptions->templates->$template;
+        if(isset($playerOptions->templates->$template)) {
+            return $playerOptions->templates->$template;
+        }
+
+        return '';
     }
 
     private function episodeUrl($props) {
