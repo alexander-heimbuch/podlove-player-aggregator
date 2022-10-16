@@ -130,6 +130,23 @@ class Podlove_Player_Aggregator_Public_API
 
         }
 
+
+        if (isset($result->playlist)) {
+            $playlist = array();
+
+            try {
+                $playlist = $this->api->get($result->playlist);
+            } 
+            finally {
+                if (is_iterable($playlist)) {
+                    foreach ($playlist as $value) {
+                        $value->config = get_site_url() . '/' . 'wp-json' . '/' . $this->plugin_name . '/' . 'site' . '/' . $site['name'] . '/' . 'episode' . '/' . $value->episode;
+                    }
+                    $result->playlist = $playlist;
+                }
+            }
+        }
+
         if ($result === null) {
             return new WP_Error( 'no_config', __( "Couldn't find a config for this request", "podlove-player-aggregator" ) );
         }

@@ -228,6 +228,16 @@ class Podlove_Player_Aggregator_Admin_API
         return rest_ensure_response(array('results' => $results));
     }
 
+    private function sortedOptions($input) {
+        if (!is_object($input)) {
+            return array();
+        }
+
+        $data = array_keys((array)$input);
+        sort($data);
+        return $data;
+    }
+
     /**
      * get list of episodes
      *
@@ -261,9 +271,9 @@ class Podlove_Player_Aggregator_Admin_API
         try {
             $playerOptions = $this->api->get($site['url'] . '/wp-json/podlove-web-player/options');
             $details->playerOptions = array(
-                'themes' => array_keys((array)$playerOptions->themes),
-                'configs' => array_keys((array)$playerOptions->configs),
-                'templates' => array_keys((array)$playerOptions->templates)
+                'themes' => $this->sortedOptions($playerOptions->themes),
+                'configs' => $this->sortedOptions($playerOptions->configs),
+                'templates' => $this->sortedOptions($playerOptions->templates)
             );
         } finally {}
 

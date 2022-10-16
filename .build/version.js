@@ -5,13 +5,13 @@ const version = require("../package.json").version;
 async function main() {
   await replace({
     files: ENTRY,
-    from: /(Version:           \d\.\d\.\d[-]?[\d])/,
+    from: /(Version:           \d\.\d\.\d?[-]?[\d])/,
     to: `Version:           ${version}`,
   });
 
   await replace({
     files: ENTRY,
-    from: /(define\( \'PODLOVE_PLAYER_AGGREGATOR_VERSION\'\, \'\d\.\d\.\d[-]?[\d]\' \))/,
+    from: /(define\( \'PODLOVE_PLAYER_AGGREGATOR_VERSION\'\, \'\d\.\d\.\d?[-]?[\d]\' \))/,
     to: `define( 'PODLOVE_PLAYER_AGGREGATOR_VERSION', '${version}' )`,
   });
 }
