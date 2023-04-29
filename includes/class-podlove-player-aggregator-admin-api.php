@@ -188,7 +188,7 @@ class Podlove_Player_Aggregator_Admin_API
         $valid = false;
         
         try {
-            $valid = array_key_exists('_version', $this->api->get($request->get_param('site') . '/wp-json/podlove/v2/episodes')) !== null;
+            $valid = array_key_exists('_version', $this->api->get($request->get_param('site') . '/wp-json/podlove/v2/episodes'));
         } finally {
 
         }
@@ -210,12 +210,11 @@ class Podlove_Player_Aggregator_Admin_API
         foreach ($sites as $site) {
             try {
                 $result = $this->api->get($site['url'] . '/wp-json/podlove/v2/episodes');
-                $episodes = $result->results ?? array();
-
+                $episodes = $result['results'] ?? array();
                 foreach ($episodes as $episode) {
                     array_push($results, array(
-                        'episode' => $episode->id,
-                        'title' => $episode->title,
+                        'episode' => $episode['id'],
+                        'title' => $episode['title'],
                         'site' => $site['name']
                     ));
                 }
@@ -229,10 +228,6 @@ class Podlove_Player_Aggregator_Admin_API
     }
 
     private function sortedOptions($input) {
-        if (!is_object($input)) {
-            return array();
-        }
-
         $data = array_keys((array)$input);
         sort($data);
         return $data;
@@ -247,6 +242,7 @@ class Podlove_Player_Aggregator_Admin_API
     {
         $options = $this->options->read();
         $site = null;
+        $details = array();
 
         foreach ($options['sites'] as $value) {
             if ($value['name'] == $request->get_param('site')) {
@@ -264,16 +260,16 @@ class Podlove_Player_Aggregator_Admin_API
         } finally {
         }
 
-        $details->site_url = $site['url'];
+        $details['site_url'] = $site['url'];
 
         $playerOptions = null;
 
         try {
             $playerOptions = $this->api->get($site['url'] . '/wp-json/podlove-web-player/options');
-            $details->playerOptions = array(
-                'themes' => $this->sortedOptions($playerOptions->themes),
-                'configs' => $this->sortedOptions($playerOptions->configs),
-                'templates' => $this->sortedOptions($playerOptions->templates)
+            $details['playerOptions'] = array(
+                'themes' => $this->sortedOptions($playerOptions['themes']),
+                'configs' => $this->sortedOptions($playerOptions['configs']),
+                'templates' => $this->sortedOptions($playerOptions['templates'])
             );
         } finally {}
 

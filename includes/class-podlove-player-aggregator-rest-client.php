@@ -46,10 +46,17 @@ class Podlove_Player_Aggregator_Rest_Client {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $result = curl_exec($curl);
+        $contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 
         curl_close($curl);
 
-        return json_decode($result);
+        if (!str_contains($contentType, 'application/json')) {
+            return array();
+        }
+
+        $result = json_decode($result, true);
+        
+        return $result;
     }
 
 
